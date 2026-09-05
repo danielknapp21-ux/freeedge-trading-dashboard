@@ -1,100 +1,85 @@
-# FreeEdge Dashboard
+# FreeEdge Dashboard - Proven Edge Trading Tools (Free & Open Source)
 
-FreeEdge Dashboard is a free Streamlit research dashboard for exploring transparent, research-backed trading ideas using public market data from `yfinance`.
+A fully functional, free Streamlit web application for stocks, ETFs, and options trading analysis. Focuses on **data-backed, non-mainstream quantitative edges** rather than hype or black-box signals.
 
-It is designed for education, idea generation, and disciplined backtesting. It is not a signal service, not financial advice, and not a money printer.
+**Core Strategies Included (with historical research backing):**
+- **Short-term RSI(2) Mean Reversion Swing Strategy**: Inspired by Larry Connors research and multiple independent backtests. Captures short-term overreactions in liquid instruments. High win-rate potential in ranging/swing environments, low market exposure.
+- **Pairs Trading / Statistical Arbitrage Lite**: Classic quant relative value approach. Trades the spread/z-score between correlated assets (e.g., sector ETFs, SPY/QQQ). Academic literature (e.g., Gatev, Goetzmann, Rouwenhorst 2006 and many follow-ups) documents profitability before costs in many pairs due to mean-reversion of relative prices.
+- **Volatility & Options Insights**: Basic tools to explore IV proxies vs realized vol for premium selling ideas (volatility risk premium is a well-studied edge in options).
 
-## What is included
+**NO "foolproof" claims.** Markets are competitive. All edges are probabilistic, regime-dependent, and subject to decay, costs, slippage, and black swans. This is an **educational/research tool** to help you explore, backtest ideas rigorously, and understand risk metrics. 
 
-### 1. Live RSI(2) mean-reversion signals
+**CRITICAL DISCLAIMERS (Read Fully):**
+- **NOT financial, investment, or trading advice.** 
+- Trading and investing involve **substantial risk of loss**, including possible loss of principal. Past performance (backtests or live) does not guarantee future results.
+- Backtests are simplified: they typically use close prices, ignore or approximate commissions/slippage/spreads/taxes/borrow costs/liquidity constraints/partial fills/psychological factors. Real trading results will differ (usually worse).
+- No strategy is "proven" to work forever. You must forward-test (paper trade) extensively in current market conditions.
+- Position sizing, risk management (stops, max drawdown limits, diversification), and broker execution quality are YOUR responsibility.
+- Options trading involves additional risks (leverage, expiration, assignment).
+- Data from yfinance/Yahoo is delayed and for informational purposes only. Not real-time execution quality.
+- Always do your own due diligence. Consider consulting a licensed financial advisor. The authors/contributors assume no liability.
 
-- Daily-bar RSI(2) readings for liquid stocks and ETFs.
-- Oversold and overbought detection.
-- Price and RSI charts.
-- Customizable RSI period, oversold threshold, and overbought threshold.
-- Useful primarily for swing-trading research, not scalping.
+Use this tool responsibly. Start small, paper trade, understand every number on the screen.
 
-### 2. Full backtest engine
+## Features
+- **Live Signals Tab**: Real-time (delayed) price, RSI(2)/RSI(14), current signal for swing entry/exit on any ticker. Customizable thresholds.
+- **Backtest Engine Tab**: Full historical backtester for the RSI mean reversion strategy. Adjustable params (RSI period, oversold/overbought levels, exit level, start/end dates, initial capital, commission %). Outputs:
+  - Interactive equity curve (Plotly)
+  - Key metrics: CAGR, Total Return, Max Drawdown, Sharpe Ratio (rf=0), Win Rate, Profit Factor, # Trades, Avg Win/Loss, Exposure %
+  - Simple trade log summary
+- **Pairs Trading Explorer Tab**: Select or enter two tickers. Computes rolling z-score of price ratio/spread. Live signal + historical backtest of the pairs strategy (long/short the spread when z-score extreme). Shows performance metrics and spread/z-score charts. Great for relative value ideas on ETFs.
+- **Options & Volatility Tab**: For any ticker, view available options expirations and sample chain (ATM focus). Computes historical realized volatility (HV) as proxy. Highlights potential premium selling opportunities when HV low relative to typical IV environment (user should verify live IV on broker platform). Educational only.
+- **Fully Customizable & Transparent**: Change strategy params, dates, capital. All calculations visible in code.
+- **Free Forever**: 100% free data (yfinance), free hosting/deploy options.
 
-- Long-only mean-reversion backtest.
-- Next-bar execution assumption for more realistic testing.
-- Adjustable RSI period, entry level, exit level, starting capital, commission, and slippage.
-- Equity curve, drawdown, CAGR, max drawdown, Sharpe, win rate, profit factor, exposure, and trade log.
+## How to Run Locally (Free)
+1. Clone/fork this repo.
+2. `cd free_trading_edge_dashboard`
+3. `pip install -r requirements.txt`
+4. `streamlit run app.py`
+5. Open browser to the local URL shown.
 
-### 3. Pairs trading / stat-arb lite explorer
+## Deploy as Free Public Webapp (Recommended)
+**Easiest (Streamlit Cloud - Free tier sufficient for this):**
+1. Push/fork this repo to your public GitHub account.
+2. Go to https://share.streamlit.io/
+3. Sign in with GitHub.
+4. Click "New app" → select this repo → main branch → `app.py` as entrypoint.
+5. Deploy. It will be live at a share.streamlit.io URL you control. Free, auto-updates on git push.
+6. (Optional) Add secrets if needed later, but none required here.
 
-- Price-ratio z-score explorer for common ETF and stock pairs.
-- Custom pair input.
-- Live z-score signal.
-- Simple historical spread mean-reversion backtest.
-- Based on the broad research tradition around statistical arbitrage and relative-value pairs trading.
+**Alternatives**: Hugging Face Spaces (Gradio/Streamlit), Render.com free tier, Railway.app hobby, Vercel (with adjustments), or self-host.
 
-### 4. Options and volatility insights
+GitHub Pages alone won't work well (static only); Streamlit Cloud makes the Python backend + interactive charts work for free.
 
-- Nearest-expiry options chain viewer through Yahoo Finance / yfinance when available.
-- ATM-ish calls and puts.
-- Implied-volatility display from the chain.
-- 20-day and 60-day realized/historical volatility calculations.
-- Educational comparison of IV versus HV, with heavy tail-risk caveats.
+## Why These Strategies? (Brief Research Context)
+- **RSI(2) Mean Reversion**: Short-term RSI extremes often precede reversals due to overreaction/microstructure. Multiple practitioner books (Connors) and independent quant sites show positive expectancy in backtests on indices/ETFs/stocks, especially with tight risk. Low holding periods = lower drawdown risk per trade.
+- **Pairs/Stat Arb**: Relative prices of economically linked assets tend to mean-revert. Extensive finance literature documents profits from simple distance or cointegration methods on US equities/ETFs, though capacity limited and costs matter. This "lite" version uses z-score for accessibility.
+- **Vol Premium**: Selling options premium when implied vol is elevated vs. realized has positive edge on average (insurance selling), documented in many volatility trading papers. App helps screen for candidates.
 
-## Important disclaimers
+These are **not** the most common retail TA (no default 14-period RSI crossover hype). They require discipline and are "quant-ish".
 
-This app is for education and research only. It is not investment advice, financial advice, trading advice, or a recommendation to buy, sell, short, hedge, or trade any security, option, ETF, or derivative.
+## Limitations & Roadmap (Community Welcome)
+- Data: Daily bars primarily (yfinance limits intraday history). For true scalping/intraday, integrate paid low-latency feed later (Polygon, etc.).
+- No live broker execution or alerts (add via webhooks/Twilio later if desired).
+- Backtests don't include dividends reinvestment perfectly in all cases or corporate actions edge cases (yfinance adjusted close helps).
+- Pairs hedge ratio is simplified (ratio-based); full OLS/ cointegration test can be added.
+- No machine learning or alternative data (future?).
+- Mobile experience basic.
 
-Backtests are simplified. Real trading results can be materially worse because of bid/ask spreads, commissions, slippage, taxes, liquidity, borrow constraints, survivorship bias, regime change, overfitting, behavioral mistakes, and execution errors.
+Pull requests for improvements, more robust backtesting (e.g. vectorbt integration), additional filters (volume, ATR, regime via ADX), or better pairs cointegration welcome!
 
-No strategy is guaranteed. Edges decay. Historical performance does not imply future performance. You can lose substantial money. Paper trade first and use conservative position sizing.
-
-Options involve additional risks, including total premium loss, assignment, early exercise, volatility crush, gap risk, liquidity risk, margin risk, and tail events.
-
-## Local setup
-
-```bash
-git clone https://github.com/danielknapp21-ux/freeedge-trading-dashboard.git
-cd freeedge-trading-dashboard
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
-pip install -r requirements.txt
-streamlit run app.py
-```
-
-## Free deployment on Streamlit Community Cloud
-
-1. Go to Streamlit Community Cloud.
-2. Connect GitHub.
-3. Select this repository.
-4. Use branch `main`.
-5. Use entrypoint `app.py`.
-6. Deploy.
-
-The app will auto-update when new commits are pushed to `main`.
-
-## Suggested workflow
-
-1. Start with the Live Signals tab using SPY, QQQ, IWM, DIA, XLF, XLK, XLE, NVDA, AAPL, MSFT, AMZN, GOOGL, META, TSLA.
-2. Backtest multiple regimes separately, such as 2015-2019, 2020, 2022, and 2023-present.
-3. Avoid optimizing one ticker and one period until the backtest looks perfect.
-4. Use tiny position sizes or paper trading before considering real money.
-5. Keep notes on every test and avoid cherry-picking.
-
-## Research context
-
-The dashboard focuses on transparent, commonly researched market anomalies and frameworks:
-
-- Short-term equity/ETF mean reversion using extreme RSI-style overreaction measures.
-- Relative-value / pairs trading based on mean-reverting spreads or ratios.
-- Volatility risk premium concepts comparing implied volatility and realized volatility.
-
-These ideas have historical and academic support, but real-world profitability depends heavily on costs, risk control, instrument choice, implementation quality, and market regime.
-
-## Data limitations
-
-- Data comes from Yahoo Finance through `yfinance`.
-- Daily bars are the primary intended timeframe.
-- Options data availability varies by ticker and market.
-- Free public data may be delayed, incomplete, adjusted, or unavailable.
-- Intraday/scalping workflows are intentionally limited.
+## Tech Stack
+- Python + Streamlit (UI + caching)
+- yfinance (free market data: prices, options chains)
+- pandas/numpy/scipy (analysis)
+- plotly (interactive charts)
 
 ## License
+MIT or similar - free to use/modify for personal/educational/commercial? Check code. No warranty.
 
-Educational use. Add a formal license if you plan to distribute publicly.
+**Start here**: Deploy it, paper trade the signals on 1-2 liquid tickers (SPY, QQQ, IWM recommended for starters), run backtests on different regimes (bull, bear, sideways), compare to buy-and-hold. Learn what works for YOUR risk tolerance.
+
+Trade smart. Risk little per idea. Compound the process, not just returns.
+
+Questions? Open GitHub issue. Good luck!
